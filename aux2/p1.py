@@ -1,8 +1,8 @@
-from pathlib import Path
 import pyglet
 import numpy as np
-from pyglet.gl import *
 import os
+from pathlib import Path
+from pyglet.gl import *
 
 
 WIDTH = 600
