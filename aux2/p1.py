@@ -1,8 +1,8 @@
 import pyglet
 import numpy as np
 import os
+import pyglet.gl as pygl
 from pathlib import Path
-from pyglet.gl import *
 
 
 WIDTH = 600
@@ -34,8 +34,8 @@ def create_circle(x, y, radius):
     return positions
 
 if __name__ == "__main__":
-    # Creamos nuestros shaders
 
+    # Import shaders
     with open(Path(os.path.dirname(__file__)) / "assets/vertex_program.glsl") as f:
         vertex_source = f.read()
 
@@ -43,18 +43,18 @@ if __name__ == "__main__":
         fragment_source = f.read()
 
 
-    # Compilamos los shaders
+    # Compile shaders
     vert_program = pyglet.graphics.shader.Shader(vertex_source, "vertex")
     frag_program = pyglet.graphics.shader.Shader(fragment_source, "fragment")
 
-    # Creamos nuestro pipeline de rendering
+    # Create pipeline
     pipeline = pyglet.graphics.shader.ShaderProgram(vert_program, frag_program)
 
     # Creamos el circulo
     circle = create_circle(0.2, 0.0, 0.5)
 
     # Creamos el circulo en la gpu
-    circle_gpu = pipeline.vertex_list(3*DEFINITION, GL_TRIANGLES)
+    circle_gpu = pipeline.vertex_list(3*DEFINITION, pygl.GL_TRIANGLES)
 
     # Copiamos los datos
     circle_gpu.position[:] = circle
@@ -64,10 +64,10 @@ if __name__ == "__main__":
 
         # Esta linea limpia la pantalla entre frames
         window.clear()
-        glClearColor(0.1, 0.1, 0.1, 0.0)
+        pygl.glClearColor(0.1, 0.1, 0.1, 0.0)
 
         with pipeline as _:
-            circle_gpu.draw(GL_TRIANGLES)
+            circle_gpu.draw(pygl.GL_TRIANGLES)
 
     
     pyglet.app.run()
