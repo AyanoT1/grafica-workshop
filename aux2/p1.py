@@ -17,7 +17,7 @@ def create_circle(x, y, radius):
     theta = 2 * np.pi / N
     for i in range(N):
         j = 9*i
-        # centro
+        # center
         positions[j:j+3] = [x, y, 0.0]
         # p0
         dtheta0 = i * theta
@@ -50,19 +50,19 @@ if __name__ == "__main__":
     # Create pipeline
     pipeline = pyglet.graphics.shader.ShaderProgram(vert_program, frag_program)
 
-    # Creamos el circulo
+    # Create circle with the function defined above
     circle = create_circle(0.2, 0.0, 0.5)
 
-    # Creamos el circulo en la gpu
+    # Initialize the circle in the pipeline
     circle_gpu = pipeline.vertex_list(3*DEFINITION, pygl.GL_TRIANGLES)
 
-    # Copiamos los datos
+    # Push the circle to the pipeline
     circle_gpu.position[:] = circle
 
     @window.event
     def on_draw():
 
-        # Esta linea limpia la pantalla entre frames
+        # Clear the screen
         window.clear()
         pygl.glClearColor(0.1, 0.1, 0.1, 0.0)
 
