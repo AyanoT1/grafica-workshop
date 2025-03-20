@@ -68,7 +68,7 @@ void main()
 }
     """
 
-    controller = Controller("Auxiliar 1", width=WIDTH,
+    controller = Controller("Propuesto - Aux 2", width=WIDTH,
                             height=HEIGHT, resizable=True)
 
     # Compilamos los shaders
