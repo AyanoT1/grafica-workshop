@@ -8,15 +8,21 @@ WIDTH = 600
 HEIGHT = 600
 DEFINITION = 100
 
+# generar una curva suave
+x = np.linspace(0, 2*np.pi, 120)
+curve = (np.sin(x)) * 0.05
+
 class Controller(pyglet.window.Window):
     def __init__(self, title, *args, **kargs):
         super().__init__(*args, **kargs)
         # Evita error cuando se redimensiona a 0
         self.set_minimum_size(240, 240)
         self.set_caption(title)
+        self.frame = 0
 
     def update(self, dt):
-        circle = create_circle(0.2, 0.0, 0.5 + random.random() * 0.05)
+        circle = create_circle(0.2, 0.0, 0.5 + curve[self.frame])
+        self.frame = (self.frame + 1) % 120 
         circle_gpu.position[:] = circle
 
 def create_circle(x, y, radius):
@@ -97,5 +103,5 @@ void main()
         pipeline.use()
         circle_gpu.draw(GL_TRIANGLES)
 
-    pyglet.clock.schedule_interval(controller.update, 1/10)
+    pyglet.clock.schedule_interval(controller.update, 1/60)
     pyglet.app.run()
